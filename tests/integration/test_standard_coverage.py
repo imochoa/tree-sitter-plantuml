@@ -30,7 +30,7 @@ CONSTRUCTS = [
     ("elements.puml", "dataclass Config", "entity_declaration"),
     ("elements.puml", "entity Row", "participant_declaration"),
     ("elements.puml", "circle Dot", "raw_line"),
-    ("elements.puml", "() DotShort", "raw_line"),
+    ("elements.puml", "() DotShort", "element_declaration"),
     ("elements.puml", "diamond Dec", "raw_line"),
     ("elements.puml", "<> DecShort", "raw_line"),
     ("elements.puml", "class $Dollar", "class_declaration"),

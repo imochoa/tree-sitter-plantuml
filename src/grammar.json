@@ -399,6 +399,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "element_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "namespace_block"
         },
         {
@@ -2457,7 +2461,7 @@
       "type": "TOKEN",
       "content": {
         "type": "PATTERN",
-        "value": "#[\\w;:.\\/\\\\|-]+"
+        "value": "#[\\w$;:.\\/\\\\|-]+"
       }
     },
     "_entity_name": {
@@ -3141,6 +3145,10 @@
               },
               {
                 "type": "SYMBOL",
+                "name": "bracket_name"
+              },
+              {
+                "type": "SYMBOL",
                 "name": "member_ref"
               },
               {
@@ -3292,6 +3300,10 @@
               {
                 "type": "SYMBOL",
                 "name": "_entity_name"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "bracket_name"
               },
               {
                 "type": "SYMBOL",
@@ -3646,6 +3658,295 @@
           "name": "_eos"
         }
       ]
+    },
+    "element_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "kind",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": "component"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "node"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "cloud"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "folder"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "frame"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "rectangle"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "artifact"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "agent"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "card"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "file"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "stack"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "storage"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "hexagon"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "person"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "port"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "portin"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "portout"
+                        }
+                      ]
+                    },
+                    "named": true,
+                    "value": "element_kind"
+                  }
+                },
+                {
+                  "type": "FIELD",
+                  "name": "name",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_entity_name"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "bracket_name"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "FIELD",
+              "name": "name",
+              "content": {
+                "type": "SYMBOL",
+                "name": "bracket_name"
+              }
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "kind",
+                  "content": {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "STRING",
+                      "value": "()"
+                    },
+                    "named": true,
+                    "value": "element_kind"
+                  }
+                },
+                {
+                  "type": "FIELD",
+                  "name": "name",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_entity_name"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "stereotype",
+              "content": {
+                "type": "SYMBOL",
+                "name": "stereotype"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "as"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "alias",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_entity_name"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "stereotype",
+              "content": {
+                "type": "SYMBOL",
+                "name": "stereotype"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "color",
+              "content": {
+                "type": "SYMBOL",
+                "name": "color"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "FIELD",
+            "name": "tag",
+            "content": {
+              "type": "SYMBOL",
+              "name": "tag"
+            }
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_eos"
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "{"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_statement"
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "}"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_eos"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "bracket_name": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "["
+            },
+            {
+              "type": "PATTERN",
+              "value": "([^\\]\\n.ox-][^\\]\\n]*|[ox]([^\\]\\n.-][^\\]\\n]*)?)"
+            },
+            {
+              "type": "STRING",
+              "value": "]"
+            }
+          ]
+        }
+      }
     },
     "namespace_block": {
       "type": "SEQ",
@@ -4737,51 +5038,7 @@
                     },
                     {
                       "type": "STRING",
-                      "value": "component"
-                    },
-                    {
-                      "type": "STRING",
                       "value": "object"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "folder"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "frame"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "cloud"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "node"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "rectangle"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "artifact"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "agent"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "card"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "file"
-                    },
-                    {
-                      "type": "STRING",
-                      "value": "stack"
                     },
                     {
                       "type": "STRING",

@@ -1,0 +1,149 @@
+==================
+component declarations, keyword and bracket forms
+==================
+@startuml
+component Foo
+component "Payment Service" as PS <<service>> #lightblue
+component [Billing] as B
+[Inventory]
+[Order Service] as OS
+() HTTP
+() "REST API" as API
+@enduml
+---
+
+(source_file
+  (diagram
+    (element_declaration
+      kind: (element_kind)
+      name: (identifier))
+    (element_declaration
+      kind: (element_kind)
+      name: (string)
+      alias: (identifier)
+      stereotype: (stereotype)
+      color: (color))
+    (element_declaration
+      kind: (element_kind)
+      name: (bracket_name)
+      alias: (identifier))
+    (element_declaration
+      name: (bracket_name))
+    (element_declaration
+      name: (bracket_name)
+      alias: (identifier))
+    (element_declaration
+      kind: (element_kind)
+      name: (identifier))
+    (element_declaration
+      kind: (element_kind)
+      name: (string)
+      alias: (identifier))))
+
+==================
+deployment elements nest statements
+==================
+@startuml
+node Server <<linux>> {
+  component Web
+  artifact app.jar
+}
+cloud "AWS" as aws {
+  folder Bucket
+  frame Lambda {
+    [Handler]
+  }
+}
+rectangle Empty {
+}
+@enduml
+---
+
+(source_file
+  (diagram
+    (element_declaration
+      kind: (element_kind)
+      name: (identifier)
+      stereotype: (stereotype)
+      (element_declaration
+        kind: (element_kind)
+        name: (identifier))
+      (element_declaration
+        kind: (element_kind)
+        name: (identifier)))
+    (element_declaration
+      kind: (element_kind)
+      name: (string)
+      alias: (identifier)
+      (element_declaration
+        kind: (element_kind)
+        name: (identifier))
+      (element_declaration
+        kind: (element_kind)
+        name: (identifier)
+        (element_declaration
+          name: (bracket_name))))
+    (element_declaration
+      kind: (element_kind)
+      name: (identifier))))
+
+==================
+bracket names are relation endpoints
+==================
+@startuml
+[UI] --> API : calls
+B ..> [Database Gateway]
+[*] --> Idle
+Web - HTTP
+@enduml
+---
+
+(source_file
+  (diagram
+    (relation
+      left: (bracket_name)
+      operator: (relation_operator)
+      right: (identifier)
+      label: (label))
+    (relation
+      left: (identifier)
+      operator: (relation_operator)
+      right: (bracket_name))
+    (relation
+      left: (pseudostate)
+      operator: (relation_operator)
+      right: (identifier))
+    (relation
+      left: (identifier)
+      operator: (relation_operator)
+      right: (identifier))))
+
+==================
+element keywords stay names inside other diagrams
+==================
+@startuml
+class nodeList
+class Foo {
+  + node : Node
+  + file() : File
+}
+@enduml
+---
+
+(source_file
+  (diagram
+    (class_declaration
+      name: (identifier))
+    (class_declaration
+      name: (identifier)
+      body: (entity_body
+        (member
+          visibility: (visibility)
+          (attribute
+            name: (identifier)
+            type: (type)))
+        (member
+          visibility: (visibility)
+          (method
+            name: (identifier)
+            type: (type)))))))
