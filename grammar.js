@@ -979,6 +979,20 @@ export default grammar({
       $._header_block,
       $._footer_block,
       $._skinparam_block,
+      $._style_block,
+    ),
+
+    // <style> … </style>: a CSS-like sheet whose property lines
+    // (`LineColor #0369A1`) are identifier-headed, so outside a block
+    // they reach no raw route and collapse into ERROR, and a consumer
+    // reading them as statements sees selectors as entities. Inside the
+    // body only raw lines and the closer are valid, like skinparam.
+    _style_block: $ => seq(
+      alias(token(prec(3, /<style([ \t][^>\n]*)?>[ \t]*/)), $.raw_line),
+      $._newline,
+      repeat(choice(alias($._raw_block_line, $.raw_line), $._newline)),
+      alias(token(prec(3, /<\/style>[ \t]*/)), $.raw_line),
+      $._newline,
     ),
 
     // skinparam <name> { … }: the braced block form. The head token

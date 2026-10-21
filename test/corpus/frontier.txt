@@ -94,3 +94,45 @@ deactivate Worker
       (label))
     (lifecycle_statement
       (identifier))))
+
+==================
+style block passes through
+==================
+@startuml
+<style>
+sequenceDiagram {
+  participant {
+    BackGroundColor #DBEAFE
+    LineThickness 1.5
+  }
+  arrow {
+    LineColor #475569
+  }
+}
+.highlight {
+  FontStyle bold
+}
+</style>
+participant API
+@enduml
+---
+
+(source_file
+  (diagram
+    (raw_block
+      (raw_line)
+      (raw_line)
+      (raw_line)
+      (raw_line)
+      (raw_line)
+      (raw_line)
+      (raw_line)
+      (raw_line)
+      (raw_line)
+      (raw_line)
+      (raw_line)
+      (raw_line)
+      (raw_line)
+      (raw_line))
+    (participant_declaration
+      (identifier))))
