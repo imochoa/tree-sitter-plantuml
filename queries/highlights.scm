@@ -98,6 +98,11 @@
 
 (entity_kind) @keyword
 (entity_declaration name: (identifier) @type)
+
+(element_kind) @keyword
+(element_declaration name: (identifier) @type)
+(element_declaration alias: (identifier) @type)
+(bracket_name) @type
 (entity_declaration alias: (identifier) @type)
 (colon_member entity: (identifier) @type)
 (tag) @attribute

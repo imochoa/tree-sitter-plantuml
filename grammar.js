@@ -123,6 +123,7 @@ export default grammar({
       $.partition_block,
       $.swimlane,
       $.package_block,
+      $.element_declaration,
       $.namespace_block,
       $.state_block,
       $.together_block,
@@ -461,7 +462,8 @@ export default grammar({
 
     entity_list: $ => sep1($._entity_name, ','),
 
-    color: $ => token(/#[\w;:.\/\\|-]+/),
+    // `$` admits preprocessor variables: #$brand, #Gold;line:$edge
+    color: $ => token(/#[\w$;:.\/\\|-]+/),
 
     _entity_name: $ => choice($.identifier, $.string, $.qualified_name),
 
@@ -654,7 +656,7 @@ export default grammar({
       // so by emitting `_keyword_name`, which it only does when a relation
       // operator follows the word (`state --> Sum`). Aliased to identifier,
       // so the tree says what it is and the vocabulary does not grow.
-      field('left', choice($._entity_name, $.member_ref, $.pseudostate, alias($._keyword_name, $.identifier))),
+      field('left', choice($._entity_name, $.bracket_name, $.member_ref, $.pseudostate, alias($._keyword_name, $.identifier))),
       optional(field('qualifier', $.qualifier)),
       optional(seq(
         field('left_cardinality', alias($.string, $.cardinality)),
@@ -665,7 +667,7 @@ export default grammar({
         field('right_cardinality', alias($.string, $.cardinality)),
         optional(field('right_role', alias(token.immediate(/\/[\w.-]+/), $.role))),
       )),
-      field('right', choice($._entity_name, $.member_ref, $.pseudostate)),
+      field('right', choice($._entity_name, $.bracket_name, $.member_ref, $.pseudostate)),
       optional(field('activation', $.activation)),
       optional(field('color', $.color)),
       // `A --> B [[{why}]]`: a relation may carry a link, and a link may be
@@ -741,6 +743,54 @@ export default grammar({
       '}',
       $._eos,
     ),
+
+    // ── Component and deployment diagrams ──────────────────────────────
+
+    /**
+     * `component X`, `node "a name" as n <<os>> #color`, `[X] as Y`,
+     * `() X`, and the containers `node X { … }`, `cloud X { … }` whose
+     * bodies are ordinary statements. One node for every element kind:
+     * consumers index them alike, and the kind is the keyword's text.
+     * `database` stays a participant kind, `package` a package_block.
+     */
+    element_declaration: $ => seq(
+      choice(
+        seq(
+          field('kind', alias(choice(
+            'component', 'node', 'cloud', 'folder', 'frame', 'rectangle',
+            'artifact', 'agent', 'card', 'file', 'stack', 'storage',
+            'hexagon', 'person', 'port', 'portin', 'portout',
+          ), $.element_kind)),
+          field('name', choice($._entity_name, $.bracket_name)),
+        ),
+        // the bracket and lollipop shorthands carry their kind in the name
+        field('name', $.bracket_name),
+        seq(field('kind', alias('()', $.element_kind)), field('name', $._entity_name)),
+      ),
+      optional(field('stereotype', $.stereotype)),
+      optional(seq('as', field('alias', $._entity_name))),
+      optional(field('stereotype', $.stereotype)),
+      optional(field('color', $.color)),
+      repeat(field('tag', $.tag)),
+      choice(
+        $._eos,
+        seq('{', repeat($._statement), '}', $._eos),
+      ),
+    ),
+
+    /**
+     * `[Payment Service]`: a component named by its brackets, in a
+     * declaration or at either end of a relation. `[*]` and `[H]` are
+     * pseudostates, which outrank this token; the qualifier `[k]` is only
+     * valid after a left endpoint, where this token is not. A name never
+     * opens like a boundary arrow (`[->`, `[o->`, `[x..>`): the lexer
+     * would otherwise keep reading for the `]` and shadow that operator.
+     */
+    bracket_name: $ => token(prec(1, seq(
+      '[',
+      /([^\]\n.ox-][^\]\n]*|[ox]([^\]\n.-][^\]\n]*)?)/,
+      ']',
+    ))),
 
     namespace_block: $ => seq(
       'namespace',
@@ -954,10 +1004,8 @@ export default grammar({
         choice(
           'skinparam', 'scale', 'caption',
           'set',
-          'left', 'usecase', 'component',
-          'object', 'folder', 'frame',
-          'cloud', 'node', 'rectangle', 'artifact', 'agent',
-          'card', 'file', 'stack',
+          'left', 'usecase',
+          'object',
           'circle', 'diamond', 'page', 'json',
           'top', 'bottom',
           'autoactivate',
