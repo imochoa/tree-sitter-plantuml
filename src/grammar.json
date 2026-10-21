@@ -4886,6 +4886,76 @@
         {
           "type": "SYMBOL",
           "name": "_skinparam_block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_style_block"
+        }
+      ]
+    },
+    "_style_block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 3,
+              "content": {
+                "type": "PATTERN",
+                "value": "<style([ \\t][^>\\n]*)?>[ \\t]*"
+              }
+            }
+          },
+          "named": true,
+          "value": "raw_line"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_newline"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_raw_block_line"
+                },
+                "named": true,
+                "value": "raw_line"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_newline"
+              }
+            ]
+          }
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 3,
+              "content": {
+                "type": "PATTERN",
+                "value": "<\\/style>[ \\t]*"
+              }
+            }
+          },
+          "named": true,
+          "value": "raw_line"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_newline"
         }
       ]
     },
